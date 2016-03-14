@@ -1,0 +1,54 @@
+CREATE TABLE ms_plano_attrib (
+    planogram_id	INT,
+    planogram_group VARCHAR(30),
+    planogram_desc VARCHAR(100),
+    planogram_height DECIMAL(18, 2),
+    planogram_width DECIMAL(18, 2)
+);    
+
+
+CREATE TABLE ms_plano_sku (
+    planogram_id	INT,
+    sku_no BIGINT
+);    
+
+
+CREATE TABLE ms_plano_store (
+    store_id INT,
+    planogram_id INT
+);    
+
+
+
+---------------------------------------------------------
+---------------------------------------------------------
+
+
+SELECT COUNT(DISTINCT store_id)
+FROM ms_plano_store;
+
+
+SELECT COUNT(DISTINCT planogram_group)
+FROM ms_plano_attrib;
+
+
+SELECT planogram_group, COUNT(DISTINCT planogram_id)
+FROM ms_plano_attrib
+GROUP BY 1;
+
+SELECT COUNT(*)
+    FROM (
+    SELECT DISTINCT sku_no
+    FROM ms_plano_sku) x;
+    
+SELECT COUNT(*)
+FROM (
+    SELECT DISTINCT sku_no
+    FROM ms_plano_sku
+    
+    INTERSECT
+    
+    SELECT DISTINCT upc_no
+    FROM hal.product_dim_spartan) x;
+    
+
